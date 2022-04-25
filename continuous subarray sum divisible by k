@@ -1,0 +1,38 @@
+solution 1: without using prefix sum
+      unordered_map<int,int>mp;
+      mp[0]=-1;
+      int sum=0;
+      for(int i=0;i<nums.size();i++)
+      {
+          sum+=nums[i];
+          if(mp.find(sum%k)!=mp.end())
+          {
+              if(i-mp[sum%k]>=2)
+                  return true;
+          }
+          else
+              mp[sum%k]=i;
+      }
+      return false;
+ solution 2: using prefix sum
+ vector<int>pref;
+        pref.push_back(0);
+        for(int i=0;i<nums.size();i++)
+        {
+            pref.push_back(pref[i]+nums[i]);
+        }
+        unordered_map<int,int>mp;
+        for(int i=1;i<pref.size();i++)
+        {
+            int re=pref[i]%k;
+            if(re==0 && i>=2)
+                return true;
+            if(mp.find(re)!=mp.end())
+            {
+                if(i-mp[re]>=2)
+                    return true;
+            }
+            else
+                mp[re]=i;
+        }
+        return false;
